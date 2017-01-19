@@ -13,7 +13,6 @@ import com.algaworks.curso.jpa2.util.jpa.Transactional;
 
 public class CarroDAO implements Serializable {
 
-
 	/**
 	 * 
 	 */
@@ -43,6 +42,13 @@ public class CarroDAO implements Serializable {
 		} catch (PersistenceException e) {
 			throw new NegocioException("Carro não pode ser excluído.");
 		}
+	}
+
+	public Carro buscarCarroComAcessorios(Long codigo) {
+		
+			return (Carro) manager.createQuery("select c from Carro c JOIN c.acessorios a where c.codigo = ?")
+				.setParameter(1, codigo).getSingleResult();
+	
 	}
 
 }
