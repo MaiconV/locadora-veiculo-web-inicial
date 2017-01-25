@@ -30,7 +30,7 @@ public class CarroDAO implements Serializable {
 
 	@SuppressWarnings("unchecked")
 	public List<Carro> buscarTodos() {
-		return manager.createQuery("from Carro").getResultList();
+		return manager.createNamedQuery("Carro.buscarTodos").getResultList();
 	}
 
 	@Transactional
@@ -45,10 +45,25 @@ public class CarroDAO implements Serializable {
 	}
 
 	public Carro buscarCarroComAcessorios(Long codigo) {
-		
-			return (Carro) manager.createQuery("select c from Carro c JOIN c.acessorios a where c.codigo = ?")
-				.setParameter(1, codigo).getSingleResult();
-	
+
+		return manager.createNamedQuery("Carro.buscarCarroComAcessorios", Carro.class)
+				.setParameter("codigo", codigo)
+				.getSingleResult();
+
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<Carro> buscarComPaginacao(int first, int pageSize) {
+		// TODO Auto-generated method stub
+		return manager.createNamedQuery("Carro.buscarTodos")
+				.setFirstResult(first)
+				.setMaxResults(pageSize)
+				.getResultList();
+	}
+
+	public Long encontrarQuantidadeDeCarros() {
+		// TODO Auto-generated method stub
+		return manager.createQuery("select count(c) from Carro c", Long.class).getSingleResult();
 	}
 
 }

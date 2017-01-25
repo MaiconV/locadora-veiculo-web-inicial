@@ -27,8 +27,9 @@ public class PesquisaFabricanteBean implements Serializable {
 	
 	private Fabricante fabricanteSelecionado;
 	
-	public List<Fabricante> getFabricantes() {
-		return fabricantes;
+	@PostConstruct
+	public void inicializar() {
+		fabricantes = fabricanteDAO.buscarTodos();
 	}
 	
 	public void excluir() {
@@ -41,6 +42,9 @@ public class PesquisaFabricanteBean implements Serializable {
 		}
 	}
 
+	public List<Fabricante> getFabricantes() {
+		return fabricantes;
+	}
 	public Fabricante getFabricanteSelecionado() {
 		return fabricanteSelecionado;
 	}
@@ -48,8 +52,5 @@ public class PesquisaFabricanteBean implements Serializable {
 		this.fabricanteSelecionado = fabricanteSelecionado;
 	}
 	
-	@PostConstruct
-	public void inicializar() {
-		fabricantes = fabricanteDAO.buscarTodos();
-	}
+
 }

@@ -12,9 +12,15 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 
 @Entity
+@NamedQueries({ 
+	@NamedQuery(name = "Carro.buscarTodos", query = "select c from Carro c"),
+	@NamedQuery(name = "Carro.buscarCarroComAcessorios", query = "select c from Carro c left JOIN fetch c.acessorios a where c.codigo = :codigo") 
+	})
 public class Carro {
 
 	@Id
@@ -27,10 +33,8 @@ public class Carro {
 	@ManyToOne
 	@JoinColumn(name = "codigo_modelo")
 	private ModeloCarro modelo;
-	@ManyToMany(fetch=FetchType.LAZY)
-	@JoinTable(name="carro_acessorio"
-				, joinColumns=@JoinColumn(name="codigo_carro")
-				, inverseJoinColumns=@JoinColumn(name="codigo_acessorio"))
+	@ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable(name = "Carro_Acessorio", joinColumns = @JoinColumn(name = "codigo_carro"), inverseJoinColumns = @JoinColumn(name = "codigo_acessorio"))
 	private List<Acessorio> acessorios;
 	@OneToMany(mappedBy = "carro")
 	private List<Aluguel> alugueis;
